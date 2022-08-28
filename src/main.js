@@ -9,6 +9,9 @@ const userRouter = express.Router()
 app.use(express.json())
 app.use('/users', userRouter)
 
+app.set('views', 'src/views')
+app.set('view engine', 'pug')
+
 const Users = {
   15: {
     nickname: 'foo',
@@ -27,8 +30,17 @@ userRouter.param('id', (req, res, next, value) => {
 })
 
 userRouter.get('/:id', (req, res) => {
-  // @ts-ignore
-  res.send(req.user)
+  const resMimeType = req.accepts(['json', 'html'])
+
+  if (resMimeType === 'json') {
+    // @ts-ignore
+    res.send(req.user)
+  } else {
+    res.render('user-profile', {
+      // @ts-ignore
+      nickname: req.user.nickname,
+    })
+  }
 })
 
 userRouter.post('/', (req, res) => {
@@ -42,6 +54,12 @@ userRouter.post('/:id/nickname', (req, res) => {
   user.nickanme = nickname
 
   res.send('User nickname Updated')
+})
+
+app.get('/', (req, res) => {
+  res.render('index', {
+    message: 'Hello, Pug!!',
+  })
 })
 
 app.listen(PORT, () => {
