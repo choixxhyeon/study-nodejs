@@ -1,67 +1,27 @@
 // @ts-check
 
 const express = require('express')
-// const bodyParser = require('body-parser')
+const userRouter = require('./router/user')
 
 const app = express()
-const userRouter = express.Router()
-
 app.use(express.json())
 app.use('/users', userRouter)
-
-app.use(express.static('src/public'))
-
+app.use('/public', express.static('src/public'))
 app.set('views', 'src/views')
 app.set('view engine', 'pug')
 
-const Users = {
-  15: {
-    nickname: 'foo',
-  },
-}
-
 const PORT = 5000
-userRouter.get('/', (req, res) => {
-  res.send('User list')
-})
-
-userRouter.param('id', (req, res, next, value) => {
-  // @ts-ignore
-  req.user = Users[value]
-  next()
-})
-
-userRouter.get('/:id', (req, res) => {
-  const resMimeType = req.accepts(['json', 'html'])
-
-  if (resMimeType === 'json') {
-    // @ts-ignore
-    res.send(req.user)
-  } else {
-    res.render('user-profile', {
-      // @ts-ignore
-      nickname: req.user.nickname,
-    })
-  }
-})
-
-userRouter.post('/', (req, res) => {
-  res.send('User Registered.')
-})
-
-userRouter.post('/:id/nickname', (req, res) => {
-  // @ts-ignore
-  const { user } = req
-  const { nickname } = req.body
-  user.nickanme = nickname
-
-  res.send('User nickname Updated')
-})
 
 app.get('/', (req, res) => {
   res.render('index', {
     message: 'Hello, Pug!!',
   })
+})
+
+// @ts-ignore
+app.use((err, req, res, next) => {
+  res.statusCode = err.statusCode || 500
+  res.send(err.message)
 })
 
 app.listen(PORT, () => {
