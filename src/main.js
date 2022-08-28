@@ -9,6 +9,8 @@ const userRouter = express.Router()
 app.use(express.json())
 app.use('/users', userRouter)
 
+app.use(express.static('src/public'))
+
 app.set('views', 'src/views')
 app.set('view engine', 'pug')
 
