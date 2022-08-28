@@ -1,7 +1,0 @@
-{
-  "posts": [
-    { "id": "1", "title": "First Post", "content": "Hello!" },
-    { "id": "2", "title": "Second Post", "content": "Bye~!" },
-    { "id": "3", "title": "hello", "content": "pizza" }
-  ]
-}
