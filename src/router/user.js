@@ -1,10 +1,14 @@
 const express = require('express')
+const multer = require('multer')
+
+const upload = multer({ dest: 'uploads/' })
 
 const userRouter = express.Router()
 
-const Users = {
+const USERS = {
   15: {
     nickname: 'foo',
+    profileImage: undefined,
   },
 }
 
@@ -14,7 +18,7 @@ userRouter.get('/', (req, res) => {
 
 userRouter.param('id', async (req, res, next, value) => {
   try {
-    const user = Users[value]
+    const user = USERS[value]
 
     if (!user) {
       const error = new Error('User not found.')
@@ -40,6 +44,8 @@ userRouter.get('/:id', (req, res) => {
     res.render('user-profile', {
       // @ts-ignore
       nickname: req.user.nickname,
+      userId: req.params.id,
+      profileImage: `/uploads/${req.user.profileImage}`,
     })
   }
 })
@@ -55,6 +61,12 @@ userRouter.post('/:id/nickname', (req, res) => {
   user.nickanme = nickname
 
   res.send('User nickname Updated')
+})
+
+userRouter.post('/:id/profile', upload.single('profile'), (req, res, next) => {
+  const { user } = req
+  user.profileImage = req.file.filename
+  res.send('User profile image uploaded.')
 })
 
 module.exports = userRouter
