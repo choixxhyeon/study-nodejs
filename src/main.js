@@ -1,8 +1,19 @@
-const app = require('./app')
+// @ts-check
+const Koa = require('koa')
+const Pug = require('koa-pug')
+const path = require('path')
 
-const PORT = 5000
+const app = new Koa()
 
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`The express server is listening at port: ${PORT}`)
+// @ts-ignore
+// eslint-disable-next-line no-new
+new Pug({
+  viewPath: path.resolve(__dirname, './views'),
+  app,
 })
+
+app.use(async (ctx) => {
+  await ctx.render('main')
+})
+
+app.listen(3000)
