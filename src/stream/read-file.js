@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-const rs = fs.createReadStream('src/stream/files/big-file', {
+const rs = fs.createReadStream('src/stream/files/big-file.txt', {
   encoding: 'utf-8',
   highWaterMark: 65536 * 4,
 })

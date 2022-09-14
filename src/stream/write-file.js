@@ -1,6 +1,6 @@
 const fs = require('fs')
 
-const ws = fs.createWriteStream('src/stream/files/big-file')
+const ws = fs.createWriteStream('src/stream/files/big-file.txt')
 
 for (let i = 0; i < 500; i += 1) {
   const size = Math.floor(800 + Math.random() * 200)
