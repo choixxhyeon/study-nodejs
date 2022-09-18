@@ -8,7 +8,7 @@
   },
   "scripts": {
     "debug": "node src/main.js",
-    "server": "nodemon src/github-cli/main.js",
+    "server": "nodemon src/graphql/gql.js",
     "test": "jest"
   },
   "repository": {
@@ -39,10 +39,13 @@
     "typescript": "^4.8.2"
   },
   "dependencies": {
+    "apollo-server": "^3.10.2",
+    "apollo-server-core": "^3.10.2",
     "chalk": "4.1.2",
     "commander": "^9.4.0",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
+    "graphql": "^16.6.0",
     "koa": "^2.13.4",
     "koa-mount": "^4.0.0",
     "koa-pug": "^5.0.0",
